@@ -1,3 +1,5 @@
+using GoSolar.API.Models;
+using GoSolar.API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoSolar.API.Controllers
@@ -6,6 +8,11 @@ namespace GoSolar.API.Controllers
     [Route("[controller]")]
     public class UsersController : ControllerBase
     {
+        //private UsersRepository _usersRepository;
+        //public UsersController(UsersRepository userRepo)
+        //{
+        //    _usersRepository = userRepo;
+        //}
 
         [HttpGet]
         public ActionResult GetUser()
@@ -14,9 +21,19 @@ namespace GoSolar.API.Controllers
         }
 
         [HttpPost]
-        public ActionResult LoginUser()
-        { 
-            return Ok("siema byq, jestes w LoginUser");
+        public ActionResult Login(LoginRequest loginRequest)
+        {
+            var foundUser = UsersRepository.CurrentInstance.Users
+                .FirstOrDefault(x => x.Username == loginRequest.Username);
+            if(foundUser is null) return NotFound($"user {loginRequest.Username} not found");
+             
+            return Ok(new User
+            {
+                Id = foundUser.Id,
+                Username = foundUser.Username,
+                IsAuthenticated = true
+
+            });
         }
     }
 }
