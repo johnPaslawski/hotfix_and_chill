@@ -14,8 +14,8 @@ const CostsChart: React.FC<CostsChartProps> = ({costs}) => {
             <Legend />
             <CartesianGrid strokeDasharray="1 1"/>
 
-            <Area type="monotone" dataKey="without" fill='red' fillOpacity={1}/>
-            <Area type="monotone" dataKey="with" fill='limegreen' fillOpacity={1}/>
+            <Area type="monotone" name='bez instalacji' dataKey="without" stroke='red' fill='red' fillOpacity={1}/>
+            <Area type="monotone" name='z instalacją' dataKey="with" stroke='limegreen' fill='limegreen' fillOpacity={1}/>
         </AreaChart>
     </ResponsiveContainer>
 }

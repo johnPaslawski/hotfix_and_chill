@@ -17,7 +17,7 @@ const SavingsChart: React.FC<SavingsChart> = ({ savings }) => {
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart data={savings}>
-        <XAxis />
+        <XAxis dataKey="year"/>
         <YAxis />
         <Tooltip />
         <CartesianAxis />
