@@ -25,17 +25,22 @@ const Landing: React.FC = () => {
       </SectionDivider>
 
       {/* 3. Druga sekcja */}
-      <SectionDivider id="wyniki">
+      <SectionDivider id="wyniki" className="h-fit">
         <h2 className="text-4xl font-extrabold my-8 text-center">
           Ile oszczędzisz?
         </h2>
-        <input
-          type="range"
-          onChange={(e) => setYears(Number(e.target.value))}
-          value={years}
-          min={5}
-          max={25}
-        />
+        <div className="flex items-center">
+          <input
+            type="range"
+            onChange={(e) => setYears(Number(e.target.value))}
+            value={years}
+            min={5}
+            max={25}
+          />
+          <span className="ml-4 text-lg font-medium">
+            {years} {(years % 10 >= 2 && years % 10 <= 4 && !(years % 100 >= 12 && years % 100 <= 14) ? "lata" : "lat")}
+          </span>
+        </div>
         <div className="flex flex-row gap-8">
           <ResultCard title="Zwrot inwestycji">
             <div className="w-full h-full text-center text-green-500 flex items-center justify-center">
