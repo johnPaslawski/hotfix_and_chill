@@ -23,26 +23,26 @@ export function CalculateSavings(_params: typeof dsp, numOfYears: number): Chart
     let thisYearEnergyPurchaseCost = _params.initialEnergyPurchasePrice / 1.07
     let thisYearEnergySellingPrice = 1
     let cumulativeSavings = - dsp.pvCostPerKw
-    let chartRecords = {} as ChartRecords;
-    let summaryRecordChart = [] as SummaryRecord[];
-    let savingsRecords = [] as SavingsRecord[];
+    const chartRecords = {} as ChartRecords;
+    const summaryRecordChart = [] as SummaryRecord[];
+    const savingsRecords = [] as SavingsRecord[];
     let yearsProfitNum: number = 0;
 
     for (let index = 1; index <= numOfYears; index++) {
-        let summaryRecord = {} as SummaryRecord;
-        let savingsRecord = {} as SavingsRecord;
+        const summaryRecord = {} as SummaryRecord;
+        const savingsRecord = {} as SavingsRecord;
 
         thisYearEnergyPurchaseCost = thisYearEnergyPurchaseCost * (1 + _params.annualEnergyPriceGrowth / 100)
         thisYearEnergySellingPrice = index === 1 
             ? 0
             : thisYearEnergySellingPrice * (1 + _params.annualEnergyPriceGrowth / 100)
-        let energyConstWithoutPV = thisYearEnergyPurchaseCost * _params.yearlyConsumptionWithoutPV
-        let selfConsumption = (_params.selfConsumptionRate / 100) * _params.annualEnergyProduced
-        let energyGivenBack = _params.annualEnergyProduced - selfConsumption
-        let energyConsumptionWithPV = _params.yearlyConsumptionWithoutPV - selfConsumption
-        let thisYearProfit = thisYearEnergySellingPrice * energyGivenBack
-        let energyCostWithPV = thisYearEnergyPurchaseCost * energyConsumptionWithPV - thisYearProfit
-        let annualSavings = energyConstWithoutPV - energyCostWithPV
+        const energyConstWithoutPV = thisYearEnergyPurchaseCost * _params.yearlyConsumptionWithoutPV
+        const selfConsumption = (_params.selfConsumptionRate / 100) * _params.annualEnergyProduced
+        const energyGivenBack = _params.annualEnergyProduced - selfConsumption
+        const energyConsumptionWithPV = _params.yearlyConsumptionWithoutPV - selfConsumption
+        const thisYearProfit = thisYearEnergySellingPrice * energyGivenBack
+        const energyCostWithPV = thisYearEnergyPurchaseCost * energyConsumptionWithPV - thisYearProfit
+        const annualSavings = energyConstWithoutPV - energyCostWithPV
         cumulativeSavings = cumulativeSavings + annualSavings 
 
         summaryRecord.year = index;
