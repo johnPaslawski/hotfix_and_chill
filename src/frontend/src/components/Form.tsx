@@ -102,6 +102,10 @@ const Form: React.FC<{setSolarParams: (data: SolarCalulcationParams) => void}> =
     console.log("Formularz wysłany:", formData);
     // Tutaj możesz dodać dowolną logikę, np. wysłanie danych na serwer
     setSolarParams(formData as unknown as SolarCalulcationParams);
+    const wynikiSection = document.getElementById("wyniki");
+    if (wynikiSection) {
+      wynikiSection.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const handleSizeChange = (
@@ -153,11 +157,11 @@ const Form: React.FC<{setSolarParams: (data: SolarCalulcationParams) => void}> =
   return (
     <form
       key={formKey}
-      className="form-container centerItem rounded-xl border border-green-400 bg-white shadow-gray-300 shadow-xl w-full"
+      className="max-w-3xl mx-auto p-8 bg-white rounded-2xl shadow-xl border border-green-500"
       onSubmit={handleFormSubmit}
     >
-      <h1 className="text-3xl text-center font-bold">Kalkulator solarny</h1>
-      <div className="flex items-center justify-center m-4 mx-auto p-2 rounded-xl border-gray-200 border radius-xl w-fit">
+      <h1 className="text-4xl font-bold text-center text-gray-800 mb-6">Kalkulator solarny</h1>
+      <div className="flex items-center justify-center mb-6 p-4 rounded-lg bg-gray-50 border border-gray-200 w-fit mx-auto">
         <FontAwesomeIcon
           icon={faHome}
           size="1x"
@@ -189,14 +193,10 @@ const Form: React.FC<{setSolarParams: (data: SolarCalulcationParams) => void}> =
           }}
         />
       </div>
-      <div className="flex flex-wrap justify-evenly gap-4">
+      <div className="flex flex-wrap -mx-4">
         {fields.map((field) => (
-          <div
-            className="flex flex-col justify-end"
-            key={field.name}
-            style={{ flex: "0 0 30%" }}
-          >
-            <label htmlFor={field.name} className="form-label">
+          <div key={field.name} className="w-full sm:w-1/2 lg:w-1/3 px-4 mb-6 flex flex-col justify-end">
+            <label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
               {field.label}
             </label>
             <input
@@ -207,32 +207,26 @@ const Form: React.FC<{setSolarParams: (data: SolarCalulcationParams) => void}> =
               required={field.required}
               value={formData[field.name]}
               onChange={handleChange}
-              className="p-2 rounded-md border border-gray-300"
+              className="h-12 w-full px-4 border border-gray-300 rounded-lg shadow-xl focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent"
             />
           </div>
         ))}
       </div>
-      <div className="flex items-center justify-center mt-4 w-full gap-4">
+      <div className="flex items-center justify-center mt-6 space-x-4">
         <Button
-          className={
-            "p-2 rounded-md border cursor-pointer border-gray-600 w-24"
-          }
+          className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-6 rounded-lg transition"
           onClick={handleReset}
         >
           Reset
         </Button>
         <Button
-          className={
-            "p-2 rounded-md border cursor-pointer border-gray-600 w-24"
-          }
+          className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded-lg transition"
           type="submit"
         >
           Policz
         </Button>
         <Button
-          className={
-            "p-2 rounded-md border cursor-pointer border-gray-600 w-24"
-          }
+          className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg transition"
           onClick={() => alert("Guzik")}
         >
           QR
