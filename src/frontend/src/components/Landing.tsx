@@ -1,9 +1,9 @@
 import React from 'react';
-import Navbar from './Elements/Navbar';
-import SectionDivider from './SectionDivider';
-import Footer from './Elements/Footer';
-import Button from './Elements/Button';
-import Form from './Elements/Form';
+import Navbar from '@components/layout/Navbar';
+import SectionDivider from '@components/layout/SectionDivider';
+import Footer from '@components/layout/Footer';
+import Button from '@components/Button';
+import Form from '@components/Form';
 
 const Landing: React.FC = () => {
     const fields = [
