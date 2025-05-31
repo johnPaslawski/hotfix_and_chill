@@ -3,8 +3,19 @@ import Navbar from './Elements/Navbar';
 import SectionDivider from './SectionDivider';
 import Footer from './Elements/Footer';
 import Button from './Elements/Button';
+import Form from './Elements/Form';
 
 const Landing: React.FC = () => {
+    const fields = [
+      { name: 'email', label: 'Email', type: 'email', placeholder: 'wpisz@email', required: true },
+      { name: 'password', label: 'Hasło', type: 'password', placeholder: 'wpisz hasło', required: true },
+    ];
+
+    const handleFormSubmit = (data: { [key: string]: string }) => {
+      console.log('Formularz wysłany:', data);
+      // Tutaj możesz dodać dowolną logikę, np. wysłanie danych na serwer
+    };
+
     return (
         <div>
             {/* 1. Navbar */}
@@ -20,7 +31,15 @@ const Landing: React.FC = () => {
 
 
                 */}
+                <p className="center">Wypełnij poniższy formularz, aby się zarejestrować na wydarzenie!</p>
                 <h2 className={'center'}>Zajebisty formularz</h2>
+                <Form
+                  fields={fields}
+                  onSubmit={handleFormSubmit}
+                  title="Zarejestruj się"
+                  width="100%"
+                  className="centerItem"
+                />
                 <Button className={'centerItem'}>Zobacz stonks</Button>
             </SectionDivider>
 
