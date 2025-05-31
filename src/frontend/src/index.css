@@ -12,18 +12,6 @@ body {
   font-size: 0.75rem;
 }
 
-
-h1 {
-  font-size: 1.25rem;
-}
-
-h2 {
-  font-size: 1rem;
-}
-
-#landing {
-}
-
 #Formularz {
   margin: 0 auto;
 }
@@ -104,9 +92,4 @@ form Button {
 form Button:hover {
   background-color: var(--colorAccent);
   border-color: #000;
-}
-
-
-.section-divider {
-  margin: 36px 0;
 }

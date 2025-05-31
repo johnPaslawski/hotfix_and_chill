@@ -7,7 +7,7 @@ interface SectionDividerProps {
 
 const SectionDivider: React.FC<SectionDividerProps> = ({ id, children }) => {
     return (
-        <section id={id} className={"section-divider"}>
+        <section id={id} className="h-screen">
             {children}
         </section>
     );

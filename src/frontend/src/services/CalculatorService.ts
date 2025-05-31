@@ -1,18 +1,18 @@
 import "../helpers/solarInputParams"
 import { defaultSolarParams, defaultSolarParams as dsp }  from "../helpers/solarInputParams"
 
-interface SavingsRecord {
+export interface SavingsRecord {
     year: number,
     sum: number
 }
 
-interface SummaryRecord {
+export interface SummaryRecord {
     year: number,
     with: number
     without: number,
 }
 
-interface ChartRecords {
+export interface ChartRecords {
     yearsToReturn: number,
     summaryRecords: SummaryRecord[],
     savingsRecords: SavingsRecord[]
