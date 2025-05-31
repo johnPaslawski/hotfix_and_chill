@@ -7,5 +7,7 @@ export const useAuth = () => {
   return {
     authorized: state.user?.is_authenticated ?? false,
     user: state?.user,
+    setUser: state.setUser,
+    logout: state.logout
   };
 };
