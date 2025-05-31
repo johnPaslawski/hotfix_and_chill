@@ -5,15 +5,8 @@
   /* background-attachment: fixed; */
   /* overflow: hidden; */
   --colorAccent: #007bff;
-}
-
-body {
   font-family: "Roboto", sans-serif;
-  font-size: 0.75rem;
-}
 
-#Formularz {
-  margin: 0 auto;
 }
 
 #Wrapper{
@@ -21,23 +14,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url("../public/placeholderImage.png");
+  background-image: url("/placeholderImage.png");
   background-size: cover;
   background-position: center;
   padding: 36px 16px;
   height: calc(100vh - (var(--spacing) * 20));
-}
-
-.border {
-  border: 2px solid #ddd;
-  border-radius: 32px;
-  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
-}
-
-.borderAlt {
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
 }
 
 .form-container {
@@ -48,48 +29,4 @@ body {
   max-width: 800px;
   height: fit-content;
   background-color: #fff;
-}
-
-.form-title {
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  margin-bottom: 1rem;
-}
-
-.form-label {
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-}
-
-.form-input {
-  padding: 0.75rem 1rem;
-}
-
-.form-input:focus {
-  outline: none;
-  border-color: #007bff;
-}
-
-.form-actions {
-  display: flex;
-  justify-content: center;
-  margin-top: 1.5rem;
-}
-form Button {
-  width: 110px;
-  text-align: center;
-  padding: 5px;
-  margin: 0 16px;
-  border: 1px solid #000;
-}
-
-form Button:hover {
-  background-color: var(--colorAccent);
-  border-color: #000;
 }

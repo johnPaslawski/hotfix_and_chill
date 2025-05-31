@@ -26,7 +26,7 @@ export function CalculateSavings(_params: typeof dsp, numOfYears: number): Chart
     let chartRecords = {} as ChartRecords;
     let summaryRecordChart = [] as SummaryRecord[];
     let savingsRecords = [] as SavingsRecord[];
-    let yearsProfitNum = null;
+    let yearsProfitNum: number = 0;
 
     for (let index = 1; index <= numOfYears; index++) {
         let summaryRecord = {} as SummaryRecord;
@@ -60,6 +60,8 @@ export function CalculateSavings(_params: typeof dsp, numOfYears: number): Chart
     }
 
     chartRecords.summaryRecords = summaryRecordChart;
+    chartRecords.savingsRecords = savingsRecords;
+    chartRecords.yearsToReturn = yearsProfitNum;
     
     return chartRecords;
 }
