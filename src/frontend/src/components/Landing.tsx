@@ -31,7 +31,7 @@ const Landing: React.FC = () => {
         </h2>
         <input
           type="range"
-          onChange={(e) => setYears(e.target.value)}
+          onChange={(e) => setYears(Number(e.target.value))}
           value={years}
           min={5}
           max={25}
