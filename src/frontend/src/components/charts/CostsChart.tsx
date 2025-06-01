@@ -50,7 +50,7 @@ const CostsChart: React.FC<CostsChartProps> = ({costs}) => {
                 dataKey="without"
                 stroke="#ff4d4d"
                 fill="url(#colorWithout)"
-                isAnimationActive={false}
+                isAnimationActive={true}
             />
             <Area
                 type="monotone"
@@ -58,7 +58,7 @@ const CostsChart: React.FC<CostsChartProps> = ({costs}) => {
                 dataKey="with"
                 stroke="#00e676"
                 fill="url(#colorWith)"
-                isAnimationActive={false}
+                isAnimationActive={true}
             />
         </AreaChart>
     </ResponsiveContainer>
