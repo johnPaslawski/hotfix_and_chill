@@ -48,7 +48,7 @@ const SavingsChart: React.FC<SavingsChart> = ({ savings }) => {
           dataKey="sum"
           fill="url(#colorSum)"
           radius={[10, 10, 0, 0]}
-          isAnimationActive={false}
+          isAnimationActive={true}
         />
       </BarChart>
     </ResponsiveContainer>
