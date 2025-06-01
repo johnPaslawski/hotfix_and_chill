@@ -23,6 +23,7 @@ const fields = [
     type: "number",
     placeholder: "kWh (np. 5000)",
     required: true,
+    unit: "kWh",
   },
   {
     name: "initialEnergyPurchasePrice",
@@ -30,6 +31,7 @@ const fields = [
     type: "number",
     placeholder: "PLN/kWh (np. 0.60)",
     required: true,
+    unit: "PLN/kWh",
   },
   {
     name: "pvSystemSizeKw",
@@ -37,6 +39,7 @@ const fields = [
     type: "number",
     placeholder: "kW (np. 5)",
     required: true,
+    unit: "kW",
   },
   {
     name: "annualEnergyProduced",
@@ -44,6 +47,7 @@ const fields = [
     type: "number",
     placeholder: "kWh (np. 6000)",
     required: true,
+    unit: "kWh",
   },
   {
     name: "initialEnergySellPrice",
@@ -51,6 +55,7 @@ const fields = [
     type: "number",
     placeholder: "PLN/kWh (np. 0.30)",
     required: true,
+    unit: "PLN/kWh",
   },
   {
     name: "pvCostPerKw",
@@ -58,6 +63,7 @@ const fields = [
     type: "number",
     placeholder: "PLN (np. 4000)",
     required: true,
+    unit: "PLN",
   },
   {
     name: "selfConsumptionRate",
@@ -65,6 +71,7 @@ const fields = [
     type: "number",
     placeholder: "% (np. 30)",
     required: true,
+    unit: "%",
   },
   {
     name: "annualEnergyPriceGrowth",
@@ -72,6 +79,7 @@ const fields = [
     type: "number",
     placeholder: "% (np. 5)",
     required: true,
+    unit: "%",
   },
 ];
 
@@ -199,16 +207,21 @@ const Form: React.FC<{setSolarParams: (data: SolarCalulcationParams) => void}> =
             <label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
               {field.label}
             </label>
-            <input
-              id={field.name}
-              name={field.name}
-              type={field.type || "text"}
-              placeholder={field.placeholder}
-              required={field.required}
-              value={formData[field.name]}
-              onChange={handleChange}
-              className="h-12 w-full px-4 border border-gray-300 rounded-lg shadow-xl focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent"
-            />
+            <div className="relative w-full">
+              <input
+                id={field.name}
+                name={field.name}
+                type={field.type || "text"}
+                placeholder={field.placeholder}
+                required={field.required}
+                value={formData[field.name]}
+                onChange={handleChange}
+                className="h-12 w-full pr-10 px-4 borderAlt border-green-400 rounded-lg shadow-xl focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent"
+              />
+              <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-gray-500 pointer-events-none">
+                {field.unit}
+              </span>
+            </div>
           </div>
         ))}
       </div>
@@ -228,10 +241,11 @@ const Form: React.FC<{setSolarParams: (data: SolarCalulcationParams) => void}> =
           Policz
         </Button>
         <Button
-          className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg transition"
-          onClick={() => alert("Guzik")}
+          type="button"
+          className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-6 rounded-lg transition"
+          onClick={() => alert("Podaj dane z faktury sprzed instalacji paneli fotowoltaicznych, aby zobaczyć, ile możesz zaoszczędzić i zyskać.")}
         >
-          QR
+          Pomoc
         </Button>
       </div>
     </form>

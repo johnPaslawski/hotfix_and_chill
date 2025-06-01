@@ -107,22 +107,33 @@ const Landing: React.FC = () => {
           <h2 className="text-4xl font-extrabold my-8 text-center">
             Ile oszczędzisz?
           </h2>
-          <div className="flex items-center">
-            <input
-              type="range"
-              onChange={(e) => setYears(Number(e.target.value))}
-              value={years}
-              min={5}
-              max={25}
-            />
-            <span className="ml-4 text-lg font-medium">
-              {years}{" "}
-              {years % 10 >= 2 &&
-              years % 10 <= 4 &&
-              !(years % 100 >= 12 && years % 100 <= 14)
-                ? "lata"
-                : "lat"}
-            </span>
+          <div
+            className={`transition-all duration-700 ease-out transform ${
+              cardsVisible ? "translate-y-0 opacity-100" : "-translate-y-10 opacity-0"
+            }`}
+            style={{ transitionDelay: "0s" }}
+          >
+            <div className="flex flex-col items-center w-full max-w-md mx-auto my-4">
+              <label htmlFor="yearsSlider" className="text-lg font-medium mb-2">
+                Okres: {years}{" "}
+                {years % 10 >= 2 && years % 10 <= 4 && !(years % 100 >= 12 && years % 100 <= 14)
+                  ? "lata"
+                  : "lat"}
+              </label>
+              <input
+                id="yearsSlider"
+                type="range"
+                onChange={(e) => setYears(Number(e.target.value))}
+                value={years}
+                min={5}
+                max={25}
+                step={1}
+                style={{
+                  background: `linear-gradient(to right, #cbd5e1 ${((years - 5) / 20) * 100}%, #e5e7eb ${((years - 5) / 20) * 100}%)`,
+                }}
+                className="w-full appearance-none cursor-pointer"
+              />
+            </div>
           </div>
           <div ref={resultsRef} className="flex flex-row gap-8">
             <div
@@ -131,7 +142,7 @@ const Landing: React.FC = () => {
                   ? "translate-y-0 opacity-100"
                   : "-translate-y-10 opacity-0"
               }`}
-              style={{ transitionDelay: "0s" }}
+              style={{ transitionDelay: "0.2s" }}
             >
               <ResultCard title="Zwrot inwestycji">
                 <div className="w-full h-full text-center text-green-500 flex items-center justify-center">
@@ -149,7 +160,7 @@ const Landing: React.FC = () => {
                   ? "translate-y-0 opacity-100"
                   : "-translate-y-10 opacity-0"
               }`}
-              style={{ transitionDelay: "0.2s" }}
+              style={{ transitionDelay: "0.4s" }}
             >
               <ResultCard title="Zestawienie">
                 <CostsChart costs={results.summaryRecords} />
@@ -162,7 +173,7 @@ const Landing: React.FC = () => {
                   ? "translate-y-0 opacity-100"
                   : "-translate-y-10 opacity-0"
               }`}
-              style={{ transitionDelay: "0.4s" }}
+              style={{ transitionDelay: "0.6s" }}
             >
               <ResultCard title="Oszczędności">
                 <SavingsChart savings={results.savingsRecords} />
@@ -172,12 +183,14 @@ const Landing: React.FC = () => {
         </div>
         <div className="flex-1 flex items-center justify-center">
           <Button
-            onClick={() => {
-              const el = document.getElementById("FAQ");
-              if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-            }}
-            className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg"
-            special={true}
+              onClick={() => {
+                const el = document.getElementById("FAQ");
+                if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded-lg transition"
+              type="submit"
+              special={true}
+              gradient1={true}
           >
             Zobacz więcej
           </Button>
@@ -247,6 +260,47 @@ const Landing: React.FC = () => {
           </div>
         </div>
       </SectionDivider>
+      <style jsx>{`
+        input[type='range'] {
+          -webkit-appearance: none;
+          width: 100%;
+          height: 24px;
+          border-radius: 9999px;
+          background: #e5e7eb;
+          outline: none;
+          transition: background 0.2s ease;
+        }
+        input[type='range']::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          background: #fb923c;
+          cursor: pointer;
+          border: none;
+          margin: 0;
+          transition: transform 0.2s ease;
+        }
+        input[type='range']::-moz-range-thumb {
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          background: #fb923c;
+          cursor: pointer;
+          border: none;
+          transition: transform 0.2s ease;
+          margin: 0;
+        }
+        input[type='range']::-ms-thumb {
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          background: #fb923c;
+          cursor: pointer;
+          border: none;
+        }
+      `}</style>
     </div>
   );
 };

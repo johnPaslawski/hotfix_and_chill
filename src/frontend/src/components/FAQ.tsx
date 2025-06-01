@@ -12,7 +12,7 @@ const FAQ: React.FC = () => {
                     onClick={() => setOpenFaq(openFaq === 1 ? null : 1)}
                     className="flex justify-between items-center w-full focus:outline-none"
                 >
-                    <h2 className="text-xl font-semibold">Jaki jest cel Kalkulatora Kosztów Energii Słonecznej?</h2>
+                    <h2 className="text-xl font-semibold text-left">Czym jest kalkulator solarny?</h2>
                     <span className={`transition-transform ${openFaq === 1 ? "rotate-90" : ""}`}>▶</span>
                 </button>
                 <div className={`mt-2 text-lg space-y-1 overflow-hidden transition-[max-height,opacity] duration-500 ease-out ${openFaq === 1 ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'}`}>
@@ -25,7 +25,7 @@ const FAQ: React.FC = () => {
                     onClick={() => setOpenFaq(openFaq === 2 ? null : 2)}
                     className="flex justify-between items-center w-full focus:outline-none"
                 >
-                    <h2 className="text-xl font-semibold">Jakie dane wejściowe są potrzebne do kalkulacji?</h2>
+                    <h2 className="text-xl font-semibold text-left">Jakie dane wejściowe muszę wprowadzić do kalkulatora solarnego?</h2>
                     <span className={`transition-transform ${openFaq === 2 ? "rotate-90" : ""}`}>▶</span>
                 </button>
                 <div className={`mt-2 text-lg space-y-1 overflow-hidden transition-[max-height,opacity] duration-500 ease-out ${openFaq === 2 ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'}`}>
@@ -47,7 +47,7 @@ const FAQ: React.FC = () => {
                     onClick={() => setOpenFaq(openFaq === 3 ? null : 3)}
                     className="flex justify-between items-center w-full focus:outline-none"
                 >
-                    <h2 className="text-xl font-semibold">W jaki sposób kalkulator oblicza oszczędności?</h2>
+                    <h2 className="text-xl font-semibold text-left">Jak kalkulator solarny oblicza oszczędności?</h2>
                     <span className={`transition-transform ${openFaq === 3 ? "rotate-90" : ""}`}>▶</span>
                 </button>
                 <div className={`mt-2 text-lg space-y-1 overflow-hidden transition-[max-height,opacity] duration-500 ease-out ${openFaq === 3 ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'}`}>
@@ -68,11 +68,11 @@ const FAQ: React.FC = () => {
                     onClick={() => setOpenFaq(openFaq === 4 ? null : 4)}
                     className="flex justify-between items-center w-full focus:outline-none"
                 >
-                    <h2 className="text-xl font-semibold">Czy kalkulator uwzględnia dofinansowania i ulgi?</h2>
+                    <h2 className="text-xl font-semibold text-left">Czy kalkulator solarny uwzględnia dofinansowania i ulgi?</h2>
                     <span className={`transition-transform ${openFaq === 4 ? "rotate-90" : ""}`}>▶</span>
                 </button>
                 <div className={`mt-2 text-lg space-y-1 overflow-hidden transition-[max-height,opacity] duration-500 ease-out ${openFaq === 4 ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'}`}>
-                    <p className="font-light">Tak, rozszerzona wersja kalkulatora może uwzględniać:</p>
+                    <p className="font-light">Kalkulator solarny uwzględnia dofinansowania i ulgi, takie jak:</p>
                     <ul className="list-disc list-inside">
                         <li className="font-light">Ulga termomodernizacyjna – odliczenie 17% kosztów instalacji PV.</li>
                         <li className="font-light">Dofinansowanie “Mój Prąd” – 7 000 PLN na instalację PV i 16 000 PLN na magazyn energii.</li>
@@ -85,11 +85,11 @@ const FAQ: React.FC = () => {
                     onClick={() => setOpenFaq(openFaq === 5 ? null : 5)}
                     className="flex justify-between items-center w-full focus:outline-none"
                 >
-                    <h2 className="text-xl font-semibold">Jak mogę rozbudować kalkulator o dodatkowe funkcje?</h2>
+                    <h2 className="text-xl font-semibold text-left">Jakie zaawansowane funkcje oferuje kalkulator solarny?</h2>
                     <span className={`transition-transform ${openFaq === 5 ? "rotate-90" : ""}`}>▶</span>
                 </button>
                 <div className={`mt-2 text-lg space-y-1 overflow-hidden transition-[max-height,opacity] duration-500 ease-out ${openFaq === 5 ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'}`}>
-                    <p className="font-light">Proponowane rozszerzenia to m.in.:</p>
+                    <p className="font-light">Kalkulator solarny oferuje zaawansowane funkcje, takie jak:</p>
                     <ul className="list-disc list-inside">
                         <li className="font-light">Zastosowanie danych godzinowych do dokładniejszych prognoz cen, produkcji i konsumpcji.</li>
                         <li className="font-light">Dodanie modelu magazynu energii z uwzględnieniem degradacji baterii.</li>
@@ -105,7 +105,7 @@ const FAQ: React.FC = () => {
                     onClick={() => setOpenFaq(openFaq === 6 ? null : 6)}
                     className="flex justify-between items-center w-full focus:outline-none"
                 >
-                    <h2 className="text-xl font-semibold">Jak zamontować fotowoltaikę w moim domu?</h2>
+                    <h2 className="text-xl font-semibold text-left">Jak wykorzystać wyniki kalkulatora solarnego przy montażu instalacji fotowoltaicznej w moim domu?</h2>
                     <span className={`transition-transform ${openFaq === 6 ? "rotate-90" : ""}`}>▶</span>
                 </button>
                 <div className={`mt-2 text-lg space-y-1 overflow-hidden transition-[max-height,opacity] duration-500 ease-out ${openFaq === 6 ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'}`}>
