@@ -16,14 +16,43 @@ import {
 import { defaultSolarParams } from "@/helpers/solarInputParams.ts";
 import FAQ from "./FAQ";
 import EfficiencyChart from "./charts/EfficiencyChart.tsx";
+import HourlyUsagePoland from "./charts/HourlyUsagePoland.tsx";
+import {
+  polandConsumptionMW,
+  totalSellPricePLNkW,
+} from "@/helpers/mockData.ts";
+import SellPriceChart from "./charts/SellPriceChart.tsx";
 
 const Landing: React.FC = () => {
   const [solarParams, setSolarParams] = useState(defaultSolarParams);
   const [years, setYears] = useState(10);
   const [cardsVisible, setCardsVisible] = useState(false);
   const [faqVisible, setFaqVisible] = useState(false);
+
   const resultsRef = useRef<HTMLDivElement>(null);
   const faqRef = useRef<HTMLDivElement>(null);
+
+  const hourlyUsagePoland = useMemo(() => {
+    const chartsPoland = polandConsumptionMW.map(([dates, _est, actual]) => {
+      const date = dates.split("-")[0].trim().split(" ")[1];
+      return {
+        date,
+        value: Number(actual),
+      };
+    });
+    return chartsPoland;
+  }, []);
+
+  const hourlySellPrice = useMemo(() => {
+    const chartData = totalSellPricePLNkW.map(([date, hour, val]) => {
+      const dateStr = date.slice(date.length - 2) + " " + (Number(hour) - 1);
+      return {
+        date: dateStr,
+        value: Number(val),
+      };
+    });
+    return chartData;
+  }, []);
 
   useEffect(() => {
     if (window.location.hash === "#wyniki" && resultsRef.current) {
@@ -81,9 +110,6 @@ const Landing: React.FC = () => {
       faqObserver.disconnect();
     };
   }, []);
-
-  const [faq1Open, setFaq1Open] = useState(false);
-  const [faq2Open, setFaq2Open] = useState(false);
 
   const results = useMemo(
     () => CalculateSavings(solarParams, years),
@@ -211,23 +237,10 @@ const Landing: React.FC = () => {
                 }`}
                 style={{ transitionDelay: "0.2s" }}
               >
-                <ResultCard title="Degradacja wydajności paneli">
-                  <EfficiencyChart savings={efficiency} />
+                <ResultCard title="Godzinowe użycie energii w Polsce">
+                  <HourlyUsagePoland usage={hourlyUsagePoland} />
                 </ResultCard>
               </div>
-              <div
-                className={`transition-all duration-700 ease-out transform ${
-                  faqVisible
-                    ? "translate-y-0 opacity-100"
-                    : "-translate-y-10 opacity-0"
-                }`}
-                style={{ transitionDelay: "0.4s" }}
-              >
-                <ResultCard title="Degradacja wydajności paneli">
-                  <EfficiencyChart savings={efficiency} />
-                </ResultCard>
-              </div>
-
               <div
                 className={`transition-all duration-700 ease-out transform ${
                   faqVisible
@@ -236,10 +249,22 @@ const Landing: React.FC = () => {
                 }`}
                 style={{ transitionDelay: "0.6s" }}
               >
-                <ResultCard title="Degradacja wydajności paneli">
-                  <EfficiencyChart savings={efficiency} />
+                <ResultCard title="Średnia cena sprzedaży">
+                  <SellPriceChart costs={hourlySellPrice} />
                 </ResultCard>
               </div>
+              {/* <div
+                className={`transition-all duration-700 ease-out transform ${
+                  faqVisible
+                    ? "translate-y-0 opacity-100"
+                    : "-translate-y-10 opacity-0"
+                }`}
+                style={{ transitionDelay: "0.4s" }}
+              >
+                <ResultCard title="Produkcja energii w Polsce">
+                  <EfficiencyChart savings={efficiency} />
+                </ResultCard>
+              </div> */}
             </div>
           </div>
           <div className="w-1/3 p-4">
