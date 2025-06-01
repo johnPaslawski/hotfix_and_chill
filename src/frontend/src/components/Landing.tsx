@@ -9,56 +9,88 @@ import Form from "@components/Form";
 import ResultCard from "./ResultCard.tsx";
 import CostsChart from "./charts/CostsChart.tsx";
 import SavingsChart from "./charts/SavingsChart.tsx";
-import { CalculateSavings } from "@/services/CalculatorService.ts";
+import {
+  CalculateEfficiency,
+  CalculateSavings,
+} from "@/services/CalculatorService.ts";
 import { defaultSolarParams } from "@/helpers/solarInputParams.ts";
 import FAQ from "./FAQ";
+import EfficiencyChart from "./charts/EfficiencyChart.tsx";
 
 const Landing: React.FC = () => {
   const [solarParams, setSolarParams] = useState(defaultSolarParams);
   const [years, setYears] = useState(10);
   const [cardsVisible, setCardsVisible] = useState(false);
+  const [faqVisible, setFaqVisible] = useState(false);
   const resultsRef = useRef<HTMLDivElement>(null);
+  const faqRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (window.location.hash === "#wyniki" && resultsRef.current) {
-      resultsRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+      resultsRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
     }
   }, []);
 
   useEffect(() => {
     const sectionEl = resultsRef.current;
-    if (!sectionEl) return;
+    const faqEl = faqRef.current;
+    if (!sectionEl || !faqEl) return;
 
     let delayTimer: number | undefined;
+    let delayTimerFaq: number | undefined;
 
-    const observer = new IntersectionObserver(
+    const sectionObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             delayTimer = window.setTimeout(() => {
               setCardsVisible(true);
             }, 500);
-            observer.disconnect();
+            sectionObserver.disconnect();
           }
         });
       },
       { threshold: 0.2 }
     );
 
-    observer.observe(sectionEl);
+    sectionObserver.observe(sectionEl);
+
+    const faqObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            delayTimerFaq = window.setTimeout(() => {
+              setFaqVisible(true);
+            }, 500);
+            faqObserver.disconnect();
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    faqObserver.observe(faqEl);
 
     return () => {
       if (delayTimer) clearTimeout(delayTimer);
-      observer.disconnect();
+      if (delayTimerFaq) clearTimeout(delayTimerFaq);
+      sectionObserver.disconnect();
+      faqObserver.disconnect();
     };
   }, []);
 
   const [faq1Open, setFaq1Open] = useState(false);
   const [faq2Open, setFaq2Open] = useState(false);
+
   const results = useMemo(
     () => CalculateSavings(solarParams, years),
     [solarParams, years]
   );
+
+  const efficiency = useMemo(() => CalculateEfficiency(20), []);
 
   return (
     <div className="flex flex-col items-center" id={"landing"}>
@@ -84,13 +116,22 @@ const Landing: React.FC = () => {
               max={25}
             />
             <span className="ml-4 text-lg font-medium">
-              {years} {(years % 10 >= 2 && years % 10 <= 4 && !(years % 100 >= 12 && years % 100 <= 14) ? "lata" : "lat")}
+              {years}{" "}
+              {years % 10 >= 2 &&
+              years % 10 <= 4 &&
+              !(years % 100 >= 12 && years % 100 <= 14)
+                ? "lata"
+                : "lat"}
             </span>
           </div>
           <div ref={resultsRef} className="flex flex-row gap-8">
             <div
-              className={`transition-all duration-700 ease-out transform ${cardsVisible ? 'translate-y-0 opacity-100' : '-translate-y-10 opacity-0'}`}
-              style={{ transitionDelay: '0s' }}
+              className={`transition-all duration-700 ease-out transform ${
+                cardsVisible
+                  ? "translate-y-0 opacity-100"
+                  : "-translate-y-10 opacity-0"
+              }`}
+              style={{ transitionDelay: "0s" }}
             >
               <ResultCard title="Zwrot inwestycji">
                 <div className="w-full h-full text-center text-green-500 flex items-center justify-center">
@@ -103,8 +144,12 @@ const Landing: React.FC = () => {
             </div>
 
             <div
-              className={`transition-all duration-700 ease-out transform ${cardsVisible ? 'translate-y-0 opacity-100' : '-translate-y-10 opacity-0'}`}
-              style={{ transitionDelay: '0.2s' }}
+              className={`transition-all duration-700 ease-out transform ${
+                cardsVisible
+                  ? "translate-y-0 opacity-100"
+                  : "-translate-y-10 opacity-0"
+              }`}
+              style={{ transitionDelay: "0.2s" }}
             >
               <ResultCard title="Zestawienie">
                 <CostsChart costs={results.summaryRecords} />
@@ -112,8 +157,12 @@ const Landing: React.FC = () => {
             </div>
 
             <div
-              className={`transition-all duration-700 ease-out transform ${cardsVisible ? 'translate-y-0 opacity-100' : '-translate-y-10 opacity-0'}`}
-              style={{ transitionDelay: '0.4s' }}
+              className={`transition-all duration-700 ease-out transform ${
+                cardsVisible
+                  ? "translate-y-0 opacity-100"
+                  : "-translate-y-10 opacity-0"
+              }`}
+              style={{ transitionDelay: "0.4s" }}
             >
               <ResultCard title="Oszczędności">
                 <SavingsChart savings={results.savingsRecords} />
@@ -125,7 +174,7 @@ const Landing: React.FC = () => {
           <Button
             onClick={() => {
               const el = document.getElementById("FAQ");
-              if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+              if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
             }}
             className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg"
             special={true}
@@ -134,13 +183,64 @@ const Landing: React.FC = () => {
           </Button>
         </div>
       </SectionDivider>
-      <SectionDivider id="FAQ" className="h-screen bg-gray-50 w-full">
-        <h2 className="text-4xl font-extrabold my-8 text-center">
+      <SectionDivider id="FAQ" className="min-h-screen bg-gray-50 w-full">
+        <h2 ref={faqRef} className="text-4xl font-extrabold my-8 text-center">
           Jak to wygląda w praktyce?
         </h2>
         <div className="flex flex-row h-full">
           <div className="w-2/3 p-4">
             {/* Lewa część (2/3 szerokości) */}
+            <div className="flex flex-row flex-wrap justify-center gap-4">
+              <div
+                className={`transition-all duration-700 ease-out transform ${
+                  faqVisible
+                    ? "translate-y-0 opacity-100"
+                    : "-translate-y-10 opacity-0"
+                }`}
+                style={{ transitionDelay: "0s" }}
+              >
+                <ResultCard title="Degradacja wydajności paneli">
+                  <EfficiencyChart savings={efficiency} />
+                </ResultCard>
+              </div>
+              <div
+                className={`transition-all duration-700 ease-out transform ${
+                  faqVisible
+                    ? "translate-y-0 opacity-100"
+                    : "-translate-y-10 opacity-0"
+                }`}
+                style={{ transitionDelay: "0.2s" }}
+              >
+                <ResultCard title="Degradacja wydajności paneli">
+                  <EfficiencyChart savings={efficiency} />
+                </ResultCard>
+              </div>
+              <div
+                className={`transition-all duration-700 ease-out transform ${
+                  faqVisible
+                    ? "translate-y-0 opacity-100"
+                    : "-translate-y-10 opacity-0"
+                }`}
+                style={{ transitionDelay: "0.4s" }}
+              >
+                <ResultCard title="Degradacja wydajności paneli">
+                  <EfficiencyChart savings={efficiency} />
+                </ResultCard>
+              </div>
+
+              <div
+                className={`transition-all duration-700 ease-out transform ${
+                  faqVisible
+                    ? "translate-y-0 opacity-100"
+                    : "-translate-y-10 opacity-0"
+                }`}
+                style={{ transitionDelay: "0.6s" }}
+              >
+                <ResultCard title="Degradacja wydajności paneli">
+                  <EfficiencyChart savings={efficiency} />
+                </ResultCard>
+              </div>
+            </div>
           </div>
           <div className="w-1/3 p-4">
             <FAQ />
