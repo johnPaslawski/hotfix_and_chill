@@ -130,7 +130,7 @@ const Landing: React.FC = () => {
             className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg"
             special={true}
           >
-            Przejdź do FAQ
+            Zobacz więcej
           </Button>
         </div>
       </SectionDivider>
