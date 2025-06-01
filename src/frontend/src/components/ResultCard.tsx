@@ -1,13 +1,14 @@
 import React from "react";
 
 interface ResultCardProps {
+  className?: string
   title?: string;
   children?: React.ReactNode;
 }
 
-const ResultCard: React.FC<ResultCardProps> = ({ title, children }) => {
+const ResultCard: React.FC<ResultCardProps> = ({ className, title, children }) => {
   return (
-    <div>
+    <div className={className}>
       {title && (
         <h3 className="font-semibold text-center text-xl my-6">{title}</h3>
       )}

@@ -27,7 +27,7 @@ const CostsChart: React.FC<CostsChartProps> = ({costs}) => {
                 tickLine={{ stroke: '#ccc' }}
             />
             <YAxis
-                label={{ value: 'Koszty', angle: -90, position: 'insideLeft', offset: -20 }}
+                label={{ value: 'Koszt jednoroczny', angle: -90, position: 'insideLeft', offset: -20 }}
                 tick={{ fontSize: 12, fill: '#555' }}
                 axisLine={{ stroke: '#ccc' }}
                 tickLine={{ stroke: '#ccc' }}

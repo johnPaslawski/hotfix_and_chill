@@ -27,6 +27,10 @@
   height: calc(100vh - (var(--spacing) * 20));
 }
 
+#wyniki {
+  height: 98vh;
+}
+
 .form-container {
   display: flex;
   flex-direction: column;
