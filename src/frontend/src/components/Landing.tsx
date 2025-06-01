@@ -18,10 +18,48 @@ import FAQ from "./FAQ";
 import EfficiencyChart from "./charts/EfficiencyChart.tsx";
 import HourlyUsagePoland from "./charts/HourlyUsagePoland.tsx";
 import {
+  energyProductionMW,
   polandConsumptionMW,
   totalSellPricePLNkW,
 } from "@/helpers/mockData.ts";
 import SellPriceChart from "./charts/SellPriceChart.tsx";
+import HourlyProductionChart from "./charts/HourlyProductionChart.tsx";
+
+interface AppCardProps {
+  imageSrc: string;
+  title: string;
+  description: string;
+  linkUrl: string;
+  linkLabel: string;
+}
+
+const AppCard: React.FC<AppCardProps> = ({
+  imageSrc,
+  title,
+  description,
+  linkUrl,
+  linkLabel,
+}) => (
+  <div className="bg-white shadow-lg rounded-lg p-8 flex-1 text-center">
+    <div className="mb-4">
+      <img
+        src={imageSrc}
+        alt={title}
+        className="mx-auto w-full h-auto rounded"
+      />
+    </div>
+    <h3 className="text-2xl font-bold mb-4">{title}</h3>
+    <p className="mb-6 text-gray-700">{description}</p>
+    {linkUrl && linkLabel && (
+      <a
+        href={linkUrl}
+        className="inline-block bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded transition"
+      >
+        {linkLabel}
+      </a>
+    )}
+  </div>
+);
 
 const Landing: React.FC = () => {
   const [solarParams, setSolarParams] = useState(defaultSolarParams);
@@ -44,13 +82,22 @@ const Landing: React.FC = () => {
   }, []);
 
   const hourlySellPrice = useMemo(() => {
-    const chartData = totalSellPricePLNkW.map(([date, hour, val]) => {
-      const dateStr = date.slice(date.length - 2) + " " + (Number(hour) - 1);
+    const chartsSellPrice = totalSellPricePLNkW.map(([_, hour, val]) => {
+      const hourInt = Number(hour);
+      const formattedHour = hourInt.toString().padStart(2, "0") + ":00";
       return {
-        date: dateStr,
+        date: formattedHour,
         value: Number(val),
       };
     });
+    return chartsSellPrice;
+  }, []);
+
+  const energyProduction = useMemo(() => {
+    const chartData = energyProductionMW.map(([start, end, value]) => ({
+      date: start,
+      value: Number(value),
+    }));
     return chartData;
   }, []);
 
@@ -117,6 +164,33 @@ const Landing: React.FC = () => {
   );
 
   const efficiency = useMemo(() => CalculateEfficiency(20), []);
+
+  const appCardData = [
+    {
+      imageSrc: "/screen1.png",
+      title: "Konto do monitorowania",
+      description:
+        "Załóż spersonalizowane konto i miej dostęp do swoich danych z dowolnego miejsca.",
+      linkUrl: "",
+      linkLabel: "",
+    },
+    {
+      imageSrc: "/screen2.png",
+      title: "Prognozy i dashboard",
+      description:
+        "Śledź prognozowaną produkcję oraz aktualne zużycie w przejrzystym panelu, dopasowanym do Twoich preferencji.",
+      linkUrl: "",
+      linkLabel: "",
+    },
+    {
+      imageSrc: "/screen3.png",
+      title: "Rozbudowane statystyki",
+      description:
+        "Korzystaj z dodatkowych analiz, porównań i porad optymalizacyjnych na podstawie Twoich danych.",
+      linkUrl: "#Aplikacja",
+      linkLabel: "Pobierz na Androida",
+    },
+  ];
 
   return (
     <div className="flex flex-col items-center" id={"landing"}>
@@ -222,7 +296,7 @@ const Landing: React.FC = () => {
           </Button>
         </div>
       </SectionDivider>
-      <SectionDivider id="FAQ" className="min-h-screen bg-gray-50 w-full">
+      <SectionDivider id="FAQ" className="min-h-screen bg-gray-50 w-full h-fit pb-15">
         <h2 ref={faqRef} className="text-4xl font-extrabold my-8 text-center">
           Jak to wygląda w praktyce?
         </h2>
@@ -250,7 +324,7 @@ const Landing: React.FC = () => {
                 }`}
                 style={{ transitionDelay: "0.2s" }}
               >
-                <ResultCard title="Godzinowe użycie energii w Polsce">
+                <ResultCard title="Godzinowe użycie energii w Polsce (24h)">
                   <HourlyUsagePoland usage={hourlyUsagePoland} />
                 </ResultCard>
               </div>
@@ -266,7 +340,7 @@ const Landing: React.FC = () => {
                   <SellPriceChart costs={hourlySellPrice} />
                 </ResultCard>
               </div>
-              {/* <div
+              <div
                 className={`transition-all duration-700 ease-out transform ${
                   faqVisible
                     ? "translate-y-0 opacity-100"
@@ -275,9 +349,9 @@ const Landing: React.FC = () => {
                 style={{ transitionDelay: "0.4s" }}
               >
                 <ResultCard title="Produkcja energii w Polsce">
-                  <EfficiencyChart savings={efficiency} />
+                  <HourlyProductionChart costs={energyProduction} />
                 </ResultCard>
-              </div> */}
+              </div>
             </div>
           </div>
           <div className="w-1/3 p-4">
@@ -326,6 +400,25 @@ const Landing: React.FC = () => {
           border: none;
         }
       `}</style>
+      <SectionDivider id="Aplikacja" className="min-h-screen flex flex-col w-3/4 mx-auto">
+        <div>
+          <h2 className="text-4xl font-extrabold my-8 text-center">
+            Aplikacja
+          </h2>
+        </div>
+        <div className="flex flex-row space-x-4 justify-center flex-wrap">
+          {appCardData.map((card, index) => (
+            <AppCard
+              key={card.imageSrc}
+              imageSrc={card.imageSrc}
+              title={card.title}
+              description={card.description}
+              linkUrl={index === appCardData.length - 1 ? card.linkUrl : ""}
+              linkLabel={index === appCardData.length - 1 ? card.linkLabel : ""}
+            />
+          ))}
+        </div>
+      </SectionDivider>
     </div>
   );
 };

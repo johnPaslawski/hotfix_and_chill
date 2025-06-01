@@ -8,7 +8,7 @@ const Navbar: React.FC = () => {
         className="text-left text-xl font-bold px-8 w-full cursor-pointer"
         onClick={() => navigate("/")}
       >
-        <img className="h-36" src="/logo_propositions/logo3_transparent.png" alt="" />
+        <img className="h-46 mt-8 scale-110" src="/logo_propositions/logo3_transparent.png" alt="" />
       </div>
     </nav>
   );
