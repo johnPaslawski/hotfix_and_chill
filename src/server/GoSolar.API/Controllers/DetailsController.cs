@@ -10,16 +10,17 @@ namespace GoSolar.API.Controllers
         [HttpGet]
         public ActionResult GetDetailedData()
         {
+            var consumptionTotal = new List<string[]>();
+
             var path1 = Path.Combine(Directory.GetCurrentDirectory(), "CSVs/calkowita_konsumpcja_dla_polski.csv"
                 ); 
             using (TextFieldParser parser = new TextFieldParser(path: path1))
             {
                 parser.TextFieldType = FieldType.Delimited;
                 parser.SetDelimiters(",");
-                var consumptionTotal = new List<(string, string, string)>();
                 var i = 0;
 
-                while (!parser.EndOfData)
+                while (!parser.EndOfData || i > 5000)
                 {
                     //Process row
                     string[] fields = parser.ReadFields()!;
@@ -28,14 +29,15 @@ namespace GoSolar.API.Controllers
                         i++;
                         continue;
                     }
-                    foreach (string field in fields)
-                    {
-                        //consumptionTotal.Add((field[0], field[1], field[2]))
-                    }
+                    consumptionTotal.Add(fields);
+                    //foreach (string field in fields)
+                    //{
+                    //    //
+                    //}
                 }
             }
 
-            return Ok();
+            return Ok(consumptionTotal);
         }
 
     }
