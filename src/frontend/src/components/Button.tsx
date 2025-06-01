@@ -22,18 +22,16 @@ const Button: React.FC<ButtonProps> = ({
           ...(gradient1
               ? isHovered
                   ? {
-                    background:
-                        "linear-gradient(90deg, rgba(105, 44, 143, 1) 0%, rgba(202, 23, 23, 1) 50%, rgba(202, 141, 55, 1) 100%)",
-                    backgroundPosition: "0 50%",
+                      backgroundColor: "#FD1D1D",
+                      background: "linear-gradient(22deg, rgba(253, 29, 29, 1) 0%, rgba(252, 176, 69, 1) 100%)",
                   }
                   : {
-                    background:
-                        "linear-gradient(90deg, rgba(105, 44, 143, 1) 0%, rgba(202, 23, 23, 1) 50%, rgba(202, 141, 55, 1) 100%)",
-                    backgroundPosition: "right",
+                      backgroundColor: "#FD1D1D",
+                      background: "linear-gradient(22deg, rgba(253, 29, 29, 1) 0%, rgba(252, 176, 69, 1) 100%)",
                   }
               : {}),
           transform: isHovered ? "scale(1.05)" : "scale(1)",
-          transition: "transform 0.3s ease-in-out, background 0.3s ease-in-out, background-position 0.3s ease-in-out",
+          transition: "transform 0.3s ease-in-out, background 0.3s ease-in-out,",
         }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -50,18 +48,16 @@ const Button: React.FC<ButtonProps> = ({
         ...(gradient1
           ? isHovered
             ? {
-                background:
-                  "linear-gradient(90deg, rgba(105, 44, 143, 1) 0%, rgba(202, 23, 23, 1) 50%, rgba(202, 141, 55, 1) 100%)",
-                  backgroundPosition: "left",
-              }
-            : {
-                  background:
-                      "linear-gradient(90deg, rgba(105, 44, 143, 1) 0%, rgba(202, 23, 23, 1) 50%, rgba(202, 141, 55, 1) 100%)",
-                  backgroundPosition: "right",
+                    backgroundColor: "#FD1D1D",
+                    background: "linear-gradient(22deg, rgba(253, 29, 29, 1) 0%, rgba(252, 176, 69, 1) 100%)",
+                }
+                : {
+                    backgroundColor: "#FD1D1D",
+                    background: "linear-gradient(22deg, rgba(253, 29, 29, 1) 0%, rgba(252, 176, 69, 1) 100%)",
                 }
           : {}),
         transform: isHovered ? "scale(1.05)" : "scale(1)",
-        transition: "transform 0.3s ease-in-out, background 0.3s ease-in-out, background-position 0.3s ease-in-out",
+        transition: "transform 0.3s ease-in-out, background 0.3s ease-in-out",
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

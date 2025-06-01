@@ -16,14 +16,43 @@ import {
 import { defaultSolarParams } from "@/helpers/solarInputParams.ts";
 import FAQ from "./FAQ";
 import EfficiencyChart from "./charts/EfficiencyChart.tsx";
+import HourlyUsagePoland from "./charts/HourlyUsagePoland.tsx";
+import {
+  polandConsumptionMW,
+  totalSellPricePLNkW,
+} from "@/helpers/mockData.ts";
+import SellPriceChart from "./charts/SellPriceChart.tsx";
 
 const Landing: React.FC = () => {
   const [solarParams, setSolarParams] = useState(defaultSolarParams);
   const [years, setYears] = useState(10);
   const [cardsVisible, setCardsVisible] = useState(false);
   const [faqVisible, setFaqVisible] = useState(false);
+
   const resultsRef = useRef<HTMLDivElement>(null);
   const faqRef = useRef<HTMLDivElement>(null);
+
+  const hourlyUsagePoland = useMemo(() => {
+    const chartsPoland = polandConsumptionMW.map(([dates, _est, actual]) => {
+      const date = dates.split("-")[0].trim().split(" ")[1];
+      return {
+        date,
+        value: Number(actual),
+      };
+    });
+    return chartsPoland;
+  }, []);
+
+  const hourlySellPrice = useMemo(() => {
+    const chartData = totalSellPricePLNkW.map(([date, hour, val]) => {
+      const dateStr = date.slice(date.length - 2) + " " + (Number(hour) - 1);
+      return {
+        date: dateStr,
+        value: Number(val),
+      };
+    });
+    return chartData;
+  }, []);
 
   useEffect(() => {
     if (window.location.hash === "#wyniki" && resultsRef.current) {
@@ -82,9 +111,6 @@ const Landing: React.FC = () => {
     };
   }, []);
 
-  const [faq1Open, setFaq1Open] = useState(false);
-  const [faq2Open, setFaq2Open] = useState(false);
-
   const results = useMemo(
     () => CalculateSavings(solarParams, years),
     [solarParams, years]
@@ -107,22 +133,33 @@ const Landing: React.FC = () => {
           <h2 className="text-4xl font-extrabold my-8 text-center">
             Ile oszczędzisz?
           </h2>
-          <div className="flex items-center">
-            <input
-              type="range"
-              onChange={(e) => setYears(Number(e.target.value))}
-              value={years}
-              min={5}
-              max={25}
-            />
-            <span className="ml-4 text-lg font-medium">
-              {years}{" "}
-              {years % 10 >= 2 &&
-              years % 10 <= 4 &&
-              !(years % 100 >= 12 && years % 100 <= 14)
-                ? "lata"
-                : "lat"}
-            </span>
+          <div
+            className={`transition-all duration-700 ease-out transform ${
+              cardsVisible ? "translate-y-0 opacity-100" : "-translate-y-10 opacity-0"
+            }`}
+            style={{ transitionDelay: "0s" }}
+          >
+            <div className="flex flex-col items-center w-full max-w-md mx-auto my-4">
+              <label htmlFor="yearsSlider" className="text-lg font-medium mb-2">
+                Okres: {years}{" "}
+                {years % 10 >= 2 && years % 10 <= 4 && !(years % 100 >= 12 && years % 100 <= 14)
+                  ? "lata"
+                  : "lat"}
+              </label>
+              <input
+                id="yearsSlider"
+                type="range"
+                onChange={(e) => setYears(Number(e.target.value))}
+                value={years}
+                min={5}
+                max={25}
+                step={1}
+                style={{
+                  background: `linear-gradient(to right, #cbd5e1 ${((years - 5) / 20) * 100}%, #e5e7eb ${((years - 5) / 20) * 100}%)`,
+                }}
+                className="w-full appearance-none cursor-pointer"
+              />
+            </div>
           </div>
           <div ref={resultsRef} className="flex flex-row gap-8">
             <div
@@ -131,7 +168,7 @@ const Landing: React.FC = () => {
                   ? "translate-y-0 opacity-100"
                   : "-translate-y-10 opacity-0"
               }`}
-              style={{ transitionDelay: "0s" }}
+              style={{ transitionDelay: "0.2s" }}
             >
               <ResultCard title="Zwrot inwestycji">
                 <div className="w-full h-full text-center text-green-500 flex items-center justify-center">
@@ -149,7 +186,7 @@ const Landing: React.FC = () => {
                   ? "translate-y-0 opacity-100"
                   : "-translate-y-10 opacity-0"
               }`}
-              style={{ transitionDelay: "0.2s" }}
+              style={{ transitionDelay: "0.4s" }}
             >
               <ResultCard title="Zestawienie">
                 <CostsChart costs={results.summaryRecords} />
@@ -162,7 +199,7 @@ const Landing: React.FC = () => {
                   ? "translate-y-0 opacity-100"
                   : "-translate-y-10 opacity-0"
               }`}
-              style={{ transitionDelay: "0.4s" }}
+              style={{ transitionDelay: "0.6s" }}
             >
               <ResultCard title="Oszczędności">
                 <SavingsChart savings={results.savingsRecords} />
@@ -172,12 +209,14 @@ const Landing: React.FC = () => {
         </div>
         <div className="flex-1 flex items-center justify-center">
           <Button
-            onClick={() => {
-              const el = document.getElementById("FAQ");
-              if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-            }}
-            className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg"
-            special={true}
+              onClick={() => {
+                const el = document.getElementById("FAQ");
+                if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded-lg transition"
+              type="submit"
+              special={true}
+              gradient1={true}
           >
             Zobacz więcej
           </Button>
@@ -211,23 +250,10 @@ const Landing: React.FC = () => {
                 }`}
                 style={{ transitionDelay: "0.2s" }}
               >
-                <ResultCard title="Degradacja wydajności paneli">
-                  <EfficiencyChart savings={efficiency} />
+                <ResultCard title="Godzinowe użycie energii w Polsce">
+                  <HourlyUsagePoland usage={hourlyUsagePoland} />
                 </ResultCard>
               </div>
-              <div
-                className={`transition-all duration-700 ease-out transform ${
-                  faqVisible
-                    ? "translate-y-0 opacity-100"
-                    : "-translate-y-10 opacity-0"
-                }`}
-                style={{ transitionDelay: "0.4s" }}
-              >
-                <ResultCard title="Degradacja wydajności paneli">
-                  <EfficiencyChart savings={efficiency} />
-                </ResultCard>
-              </div>
-
               <div
                 className={`transition-all duration-700 ease-out transform ${
                   faqVisible
@@ -236,10 +262,22 @@ const Landing: React.FC = () => {
                 }`}
                 style={{ transitionDelay: "0.6s" }}
               >
-                <ResultCard title="Degradacja wydajności paneli">
-                  <EfficiencyChart savings={efficiency} />
+                <ResultCard title="Średnia cena sprzedaży">
+                  <SellPriceChart costs={hourlySellPrice} />
                 </ResultCard>
               </div>
+              {/* <div
+                className={`transition-all duration-700 ease-out transform ${
+                  faqVisible
+                    ? "translate-y-0 opacity-100"
+                    : "-translate-y-10 opacity-0"
+                }`}
+                style={{ transitionDelay: "0.4s" }}
+              >
+                <ResultCard title="Produkcja energii w Polsce">
+                  <EfficiencyChart savings={efficiency} />
+                </ResultCard>
+              </div> */}
             </div>
           </div>
           <div className="w-1/3 p-4">
@@ -247,6 +285,47 @@ const Landing: React.FC = () => {
           </div>
         </div>
       </SectionDivider>
+      <style jsx>{`
+        input[type='range'] {
+          -webkit-appearance: none;
+          width: 100%;
+          height: 24px;
+          border-radius: 9999px;
+          background: #e5e7eb;
+          outline: none;
+          transition: background 0.2s ease;
+        }
+        input[type='range']::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          background: #fb923c;
+          cursor: pointer;
+          border: none;
+          margin: 0;
+          transition: transform 0.2s ease;
+        }
+        input[type='range']::-moz-range-thumb {
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          background: #fb923c;
+          cursor: pointer;
+          border: none;
+          transition: transform 0.2s ease;
+          margin: 0;
+        }
+        input[type='range']::-ms-thumb {
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          background: #fb923c;
+          cursor: pointer;
+          border: none;
+        }
+      `}</style>
     </div>
   );
 };

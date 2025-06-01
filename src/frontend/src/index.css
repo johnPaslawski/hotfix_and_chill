@@ -5,10 +5,11 @@
   /* background-attachment: fixed; */
   /* overflow: hidden; */
   --colorAccent: #007bff;
-  font-family: "Big Shoulders", sans-serif;
+  font-family: "Geologica", sans-serif;
   font-optical-sizing: auto;
-  font-weight: bold;
+  font-weight: 400;
   font-style: normal;
+  font-variation-settings:
 
 }
 
@@ -58,4 +59,10 @@
   overflow: visible;
 }
 
+.border {
+  border-width: 2px;
+}
 
+.borderAlt {
+  border-width: 1px;
+}
