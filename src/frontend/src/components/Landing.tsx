@@ -18,10 +18,12 @@ import FAQ from "./FAQ";
 import EfficiencyChart from "./charts/EfficiencyChart.tsx";
 import HourlyUsagePoland from "./charts/HourlyUsagePoland.tsx";
 import {
+  energyProductionMW,
   polandConsumptionMW,
   totalSellPricePLNkW,
 } from "@/helpers/mockData.ts";
 import SellPriceChart from "./charts/SellPriceChart.tsx";
+import HourlyProductionChart from "./charts/HourlyProductionChart.tsx";
 
 interface AppCardProps {
   imageSrc: string;
@@ -91,6 +93,14 @@ const Landing: React.FC = () => {
     return chartsSellPrice;
   }, []);
 
+  const energyProduction = useMemo(() => {
+    const chartData = energyProductionMW.map(([start, end, value]) => ({
+      date: start,
+      value: Number(value),
+    }));
+    return chartData;
+  }, []);
+
   useEffect(() => {
     if (window.location.hash === "#wyniki" && resultsRef.current) {
       resultsRef.current.scrollIntoView({
@@ -157,7 +167,7 @@ const Landing: React.FC = () => {
 
   const appCardData = [
     {
-      imageSrc: "public/screen1.png",
+      imageSrc: "/screen1.png",
       title: "Konto do monitorowania",
       description:
         "Załóż spersonalizowane konto i miej dostęp do swoich danych z dowolnego miejsca.",
@@ -165,7 +175,7 @@ const Landing: React.FC = () => {
       linkLabel: "",
     },
     {
-      imageSrc: "public/screen2.png",
+      imageSrc: "/screen2.png",
       title: "Prognozy i dashboard",
       description:
         "Śledź prognozowaną produkcję oraz aktualne zużycie w przejrzystym panelu, dopasowanym do Twoich preferencji.",
@@ -173,7 +183,7 @@ const Landing: React.FC = () => {
       linkLabel: "",
     },
     {
-      imageSrc: "public/screen3.png",
+      imageSrc: "/screen3.png",
       title: "Rozbudowane statystyki",
       description:
         "Korzystaj z dodatkowych analiz, porównań i porad optymalizacyjnych na podstawie Twoich danych.",
@@ -330,7 +340,7 @@ const Landing: React.FC = () => {
                   <SellPriceChart costs={hourlySellPrice} />
                 </ResultCard>
               </div>
-              {/* <div
+              <div
                 className={`transition-all duration-700 ease-out transform ${
                   faqVisible
                     ? "translate-y-0 opacity-100"
@@ -339,9 +349,9 @@ const Landing: React.FC = () => {
                 style={{ transitionDelay: "0.4s" }}
               >
                 <ResultCard title="Produkcja energii w Polsce">
-                  <EfficiencyChart savings={efficiency} />
+                  <HourlyProductionChart costs={energyProduction} />
                 </ResultCard>
-              </div> */}
+              </div>
             </div>
           </div>
           <div className="w-1/3 p-4">
