@@ -13,9 +13,9 @@ const SellPriceChart: React.FC<SellPriceChartProps> = ({costs}) => {
                     <stop offset="5%" stopColor="#ff4d4d" stopOpacity={0.8} />
                     <stop offset="95%" stopColor="#ff4d4d" stopOpacity={0} />
                 </linearGradient>
-                <linearGradient id="colorWith" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#00e676" stopOpacity={0.8} />
-                    <stop offset="95%" stopColor="#00e676" stopOpacity={0} />
+                <linearGradient id="sellPrice" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#7500ff" stopOpacity={0.8} />
+                    <stop offset="95%" stopColor="#7500ff" stopOpacity={0} />
                 </linearGradient>
             </defs>
             <XAxis
@@ -43,8 +43,8 @@ const SellPriceChart: React.FC<SellPriceChartProps> = ({costs}) => {
                 type="monotone"
                 name="Cena"
                 dataKey="value"
-                stroke="#00e676"
-                fill="url(#colorWith)"
+                stroke="#7500ff"
+                fill="url(#sellPrice)"
                 isAnimationActive={false}
             />
         </AreaChart>

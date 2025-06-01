@@ -324,7 +324,7 @@ const Landing: React.FC = () => {
                 }`}
                 style={{ transitionDelay: "0.2s" }}
               >
-                <ResultCard title="Godzinowe użycie energii w Polsce">
+                <ResultCard title="Godzinowe użycie energii w Polsce (24h)">
                   <HourlyUsagePoland usage={hourlyUsagePoland} />
                 </ResultCard>
               </div>
