@@ -1,3 +1,3 @@
 # hotfix and chill
 
-we are here for the money
+we are here to solve problems
