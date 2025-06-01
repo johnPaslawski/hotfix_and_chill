@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="CSVs\calkowita_konsumpcja_dla_polski.csv" />
+    <None Remove="CSVs\Uzycie_danych_godzinowych\Calkowita_konsumpcja_dla_Polski\total.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="CSVs\calkowita_konsumpcja_dla_polski.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
