@@ -19,9 +19,8 @@ const SellPriceChart: React.FC<SellPriceChartProps> = ({costs}) => {
                 </linearGradient>
             </defs>
             <XAxis
-                dataKey={"value"}
-                label={{ value: 'Godzina', position: 'insideBottom', offset: -15 }}
-                interval={2}
+                dataKey={"date"}
+                interval={20}
                 tick={{ fontSize: 12, fill: '#555' }}
                 axisLine={{ stroke: '#ccc' }}
                 tickLine={{ stroke: '#ccc' }}
@@ -37,7 +36,7 @@ const SellPriceChart: React.FC<SellPriceChartProps> = ({costs}) => {
                 contentStyle={{ backgroundColor: '#222', border: 'none', borderRadius: 4, color: '#fff' }}
                 labelStyle={{ color: '#aaa' }}
             />
-  
+
             <CartesianGrid strokeDasharray="3 3" />
 
             <Area
