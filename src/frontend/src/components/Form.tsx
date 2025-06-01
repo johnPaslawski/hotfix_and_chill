@@ -212,7 +212,7 @@ const Form: React.FC<{setSolarParams: (data: SolarCalulcationParams) => void}> =
           </div>
         ))}
       </div>
-      <div className="flex items-center justify-center mt-6 space-x-4">
+      <div className="flex items-center justify-evenly mt-6 space-x-4">
         <Button
           className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-6 rounded-lg transition"
           onClick={handleReset}
@@ -222,6 +222,8 @@ const Form: React.FC<{setSolarParams: (data: SolarCalulcationParams) => void}> =
         <Button
           className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded-lg transition"
           type="submit"
+          special={true}
+          gradient1={true}
         >
           Policz
         </Button>
