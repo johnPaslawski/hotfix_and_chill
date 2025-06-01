@@ -14,7 +14,6 @@ namespace GoSolar.API.Controllers
         //{
         //    _usersRepository = userRepo; 
         //}
-
         //[HttpGet("{userId}")]
         //public ActionResult GetUser(int userId)
         //{
